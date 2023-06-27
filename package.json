@@ -1,7 +1,7 @@
 {
-  "name": "camunda-modeler-bpmn-js-plugin-rename-technical-ids",
+  "name": "camunda-modeler-bpmn-js-plugin-rename-greeklish-technical-ids",
   "version": "0.1.0",
-  "description": "bpmn-js Rename Technical IDs for the Camunda Modeler",
+  "description": "bpmn-js Rename Technical IDs for the Camunda Modeler (Convert Greek Labels to Greeklish)",
   "main": "index.js",
   "scripts": {
     "client": "browserify client/client.js > client/client-bundle.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/camunda/camunda-modeler-plugins.git"
+    "url": "https://github.com/sl45sms/camunda-modeler-plugin-rename-greeklish-technical-ids.git"
   },
   "keywords": [
     "camunda",
@@ -19,11 +19,16 @@
     "bpmn"
   ],
   "author": "Felix Mueller",
+  "contributors": [
+    {
+      "name": "Panagiotis Skarvelis",
+      "email": "pskarvelis@admin.grnet.gr"
+  }],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/camunda/camunda-modeler-plugins/issues"
+    "url": "https://github.com/sl45sms/camunda-modeler-plugin-rename-greeklish-technical-ids/issues"
   },
-  "homepage": "https://github.com/camunda/camunda-modeler-plugins#readme",
+  "homepage": "https://github.com/sl45sms/camunda-modeler-plugin-rename-greeklish-technical-ids#readme",
   "devDependencies": {
     "bpmn-js": "^0.22.1",
     "browserify": "^14.1.0",
@@ -33,8 +38,5 @@
     "lodash": "^3.10.1",
     "min-dom": "^0.2.0",
     "watchify": "^3.9.0"
-  },
-  "dependencies": {
-    "elot-743-converter": "^1.0.11"
   }
 }
