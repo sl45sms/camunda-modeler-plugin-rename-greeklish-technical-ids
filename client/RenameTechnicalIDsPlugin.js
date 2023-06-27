@@ -7,6 +7,39 @@ var domify = require('min-dom/lib/domify'),
     domQuery = require('min-dom/lib/query'),
     clear = require('min-dom/lib/clear');
 
+function toGreeklish(text) {
+      const GR = Array.from("ΑΆΒΓΔΕΈΖΗΉΙΊΪΚΛΜΝΞΟΌΠΡΣΤΥΎΫΦΩΏαάβγδεέζηήιίϊΐκλμνξοόπρσςτυύϋΰφωώ");
+      const EN = Array.from("AAVGDEEZIIIIIKLMNXOOPRSTYYYFOOaavgdeeziiiiiiklmnxooprsstyyyyfoo");
+      const translation_dictionary = new Map();
+      for (let i = 0; i < GR.length; i++) {
+          translation_dictionary.set(GR[i], EN[i]);
+      }
+      const syllables = [
+          ['γχ', 'nch'], ['αυ(?=[θκξπστφχψ])', 'af'], ['ευ(?=[θκξπστφχψ|\s|$])', 'ef'], ['εύ(?=[θκξπστφχψ|\s|$])', 'ef'],
+          ['ηυ(?=[θκξπστφχψ|\s|$])', 'if'], ['(?=^|\s|$)μπ', 'b'], ['μπ(?=^|\s|$)', 'b'],
+          ['αι', 'ai'], ['οι', 'oi'], ['ου', 'ou'], ['ού', 'ou'], ['ει', 'ei'], ['ντ', 'nt'], ['τσ', 'ts'],
+          ['τζ', 'tz'], ['γγ', 'ng'], ['γκ', 'gk'], ['θ', 'th'], ['χ', 'ch'], ['ψ', 'ps'],
+          ['αυ', 'av'], ['ευ', 'ev'], ['ηυ', 'if'], ['μπ', 'mp'],
+          ['Γχ', 'Nch'], ['Αυ(?=[θκξπστφχψ])', 'Af'], ['Ευ(?=[θκξπστφχψ|\s|$])', 'Ef'], ['Εύ(?=[θκξπστφχψ|\s|$])', 'Ef'],
+          ['Ηυ(?=[θκξπστφχψ|\s|$])', 'If'], ['(?=^|\s|$)Μπ', 'B'], ['Μπ(?=^|\s|$)', 'B'],
+          ['Αι', 'Ai'], ['Οι', 'Oi'], ['Ου', 'Ou'], ['Ού', 'Ou'], ['Ει', 'Ei'], ['Ντ', 'Nt'], ['Τς', 'Ts'],
+          ['Τζ', 'Tz'], ['Γγ', 'Ng'], ['Γκ', 'Gk'], ['Θ(?=[α-ω])', 'Th'], ['Χ(?=[α-ω])', 'Ch'], ['Ψ(?=[α-ω])', 'Ps'],
+          ['Αυ', 'Av'], ['Ευ', 'Ev'], ['Ηυ', 'If'], ['Μπ', 'Mp'],
+          ['ΓΧ', 'NCH'], ['ΑΥ(?=[ΘΚΞΠΣΤΦΧΨ])', 'AF'], ['ΕΥ(?=[ΘΚΞΠΣΤΦΧΨ|\s|$])', 'EF'], ['ΕΎ(?=[ΘΚΞΠΣΤΦΧΨ|\s|$])', 'EF'],
+          ['ΗΥ(?=[ΘΚΞΠΣΤΦΧΨ|\s|$])', 'IF'], ['(?=^|\s|$)ΜΠ', 'B'], ['ΜΠ(?=^|\s|$)', 'B'],
+          ['ΑΙ', 'AI'], ['ΟΙ', 'OI'], ['ΟΥ', 'OU'], ['ΟΎ', 'OU'], ['ΕΙ', 'EI'], ['ΝΤ', 'NT'], ['ΤΣ', 'TS'],
+          ['ΤΖ', 'TZ'], ['ΓΓ', 'NG'], ['ΓΚ', 'GK'], ['Θ(?=[Α-Ω|\s|$])', 'TH'], ['Χ(?=[Α-Ω|\s|$])', 'CH'], ['Ψ(?=[Α-Ω|\s|$])', 'PS'],
+          ['ΑΥ', 'AV'], ['ΕΥ', 'EV'], ['ΗΥ', 'IF'], ['ΜΠ', 'B']
+      ];
+      for (let i = 0; i < syllables.length; i++) {
+          text = text.replace(new RegExp(syllables[i][0], 'g'), syllables[i][1]);
+      }
+      for (let key of translation_dictionary.keys()) {
+          text = text.replace(new RegExp(key, 'g'), "" + translation_dictionary.get(key));
+      }
+      return text;
+    }
+
 function RenameTechnicalIDsPlugin(elementRegistry, editorActions, canvas, modeling) {
   this._elementRegistry = elementRegistry;
   this._modeling = modeling;
@@ -141,7 +174,8 @@ RenameTechnicalIDsPlugin.prototype.renameIDs = function() {
 };
 
 RenameTechnicalIDsPlugin.prototype._getTechnicalID = function(name, type) {
-  var name = removeDiacritics(name); // remove diacritics
+  var name = toGreeklish(name); // convert to elot 743
+  name = removeDiacritics(name); // remove diacritics
   name = name.replace(/[^\w\s]/gi, ''); // now replace special characters
   name = this._getCamelCase(name);; // get camelcase
   
