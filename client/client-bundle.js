@@ -7,6 +7,7 @@ var domify = require('min-dom/lib/domify'),
     domClasses = require('min-dom/lib/classes'),
     domQuery = require('min-dom/lib/query'),
     clear = require('min-dom/lib/clear');
+    convert = require('elot-743-converter');
 
 function RenameTechnicalIDsPlugin(elementRegistry, editorActions, canvas, modeling) {
   this._elementRegistry = elementRegistry;
@@ -145,6 +146,7 @@ RenameTechnicalIDsPlugin.prototype._getTechnicalID = function(name, type) {
   var name = removeDiacritics(name); // remove diacritics
   name = name.replace(/[^\w\s]/gi, ''); // now replace special characters
   name = this._getCamelCase(name);; // get camelcase
+  name = convert(name); // convert to elot 743
   
   if ( !isNaN(name.charAt(0)) ) { // mask leading numbers
      name = 'N' + name;
